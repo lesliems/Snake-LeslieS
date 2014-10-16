@@ -1,6 +1,7 @@
 body{
     margin: 0;
     padding: 0;
+    background-image: url(http://newscoma.com/wp-content/uploads/2010/11/walking-dead-s1e1-Days-Gone-By-01.jpg);
 }
 #game-screen{
     display: block;
