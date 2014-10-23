@@ -79,10 +79,16 @@ function snakeUpdate(){
     if(snakeDirection == "down"){
         snakeHeadY++;
     }
-    else{
+    else if(snakeDirection == "right") {
         snakeHeadX++;
     }
-    
+    else if(snakeDirection == "up"){
+        snakeHeadY--;
+    }
+    else if(snakeDirection == "left") {
+        snakeHeadX--;
+    }
+    checkFoodCollisions(snakeHeadX, snakeHeadY);
     var snakeTail = snake.pop();
     snakeTail.x = snakeHeadX;
     snakeTail.y = snakeHeadY;
@@ -121,7 +127,18 @@ function keyboardHandler(event){
     if(event.keyCode == "39" && snakeDirection != "left"){
     snakeDirection = "right";
     }
-    else if (event.keyCode =="40"){
+    else if (event.keyCode =="40" && snakeDirection != "up"){
         snakeDirection = "down";
+    }
+    else if (event.keyCode) =="37" && snakeDirection !="right"{
+        snakeDirection = "left";
+    }
+    else if (event.keyCode) == "38" && snakeDirection !="down"{
+        snakeDirection = "up";
+    }
+
+function checkFoodCollisions(snakeHeadX, snakeHeadY){
+    if(snakeHeadX == food.x && snakeHeadY == food.y){
+        console.log("Food Collision");
     }
 }
