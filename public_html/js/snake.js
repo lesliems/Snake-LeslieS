@@ -46,8 +46,9 @@ function gameLoop(){
     foodDraw();
 }
 function gameDraw(){
-     context.fillStyle = "rgb(23, 201, 255)";
-     context.fillRect(0, 0, screenWidth, screenHeight);
+//    context.fillStyle = "url('http://p1.pichost.me/640/48/1712836.jpg')";
+////     context.fillStyle = "rgb(23, 201, 255)";
+//     context.fillRect(0, 0, screenWidth, screenHeight);
 }
 /* -----------------------------------------------------------------------------
  * Snake Functions
@@ -55,7 +56,7 @@ function gameDraw(){
  */
 function snakeInitialize(){
     snake = [];
-    snakeLength = 7;
+    snakeLength = 3;
     snakeSize = 20;
     snakeDirection = "down";
     
@@ -147,6 +148,12 @@ function checkFoodCollisions(snakeHeadX, snakeHeadY){
             y: 0
         });
         snakeLength++;
+        
+        var randomX = Math.floor(Math.random() * screenWidth);
+        var randomY = Math.floor(Math.random() * screenHeight);
+        
+        food.x = Math.floor (randomX / snakeSize);
+        food.y = Math.floor (randomY / snakeSize);
     }
 }
 function checkWallCollisions(snakeHeadX, snakeHeadY){
