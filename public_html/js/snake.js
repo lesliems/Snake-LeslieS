@@ -14,7 +14,8 @@ var screenWidth;
 var screenHeight;
 
 var gameState;
-
+var gameOverMenu;
+var restartButton;
 /* -----------------------------------------------------------------------------
  * Executing Game Code
  * -----------------------------------------------------------------------------
@@ -41,6 +42,12 @@ function gameInitialize() {
 
     document.addEventListener("keydown", keyboardHandler);
     
+    gameOverMenu = document.getElementById("gameOver");
+    centerMenuPosition(gameOverMenu);
+    
+    restartButton = document.getElementById("restartButton");
+    restartButton.addEventListener("Click", gameRestart );
+    
     setState("PLAY");
 }
 function gameLoop() {
@@ -56,6 +63,12 @@ function gameDraw() {
 ////     context.fillStyle = "rgb(23, 201, 255)";
 //     context.fillRect(0, 0, screenWidth, screenHeight);
     context.clearRect(0, 0, screenWidth, screenHeight);
+}
+function gameRestart(){
+    snakeInitialize();
+    foodInitialize();
+    hideMenu(gameOverMenu);
+    setState("PLAY");
 }
 /* -----------------------------------------------------------------------------
  * Snake Functions
@@ -164,23 +177,50 @@ function checkFoodCollisions(snakeHeadX, snakeHeadY) {
     }
 }
 function checkWallCollisions(snakeHeadX, snakeHeadY) {
-    snakeHeadX * snakeSize >= screenWidth || snakeHeadX * snakeSize < 0;
-}
-function initTexture(src) {
-    texture = gl.createTexture();
-    texture.image = new Image();
-    texture.image.onload = function() {
-        handleLoadedTexture(texture)
+    if(snakeHeadX * snakeSize >= screenWidth || snakeHeadX * snakeSize < 0){
+         
+        setState("GAME OVER");
     }
-
-    texture.image.src = src;
 }
+//function initTexture(src) {
+//    texture = gl.createTexture();
+//    texture.image = new Image();
+//    texture.image.onload = function() {
+//        handleLoadedTexture(texture)
+//    }
+//
+//    texture.image.src = src;
+//}
 
 /*
- * 
- * 
- * 
+ * -----------------------------------------------------------------------------
+ * Game State Handling 
+ * -----------------------------------------------------------------------------
  */
 function setState(state) {
     gameState = state;
+    showMenu(state);
+}
+/*
+ * -----------------------------------------------------------------------------
+ * Menu Functions
+ * -----------------------------------------------------------------------------
+ */
+/*changes visibility of menu*/
+function displayMenu(menu){
+    menu.style.visibility = "visible";
+}
+function hideMenu(menu){
+    menu.style.visibility = "hidden";
+}
+/* Depending what state, it will show thaat menu*/
+function showMenu (state){
+    if (state == "GAME OVER"){
+        displayMenu(gameOverMenu);
+    }
+}
+function centerMenuPosition(menu){
+    menu.style.top = (screenHeight / 2) - (menu.offsetHeight /2) + "px";
+    console.log(screenWidth + " " + menu.offsetWidth);
+    menu.style.left = (screenWidth / 2) - (menu.offsetWidth/2) + "px";
 }
