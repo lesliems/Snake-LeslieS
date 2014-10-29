@@ -15,7 +15,10 @@ var screenHeight;
 
 var gameState;
 var gameOverMenu;
+var gameStartMenu;
 var restartButton;
+var playHUD;
+var scoreboard;
 /* -----------------------------------------------------------------------------
  * Executing Game Code
  * -----------------------------------------------------------------------------
@@ -45,13 +48,25 @@ function gameInitialize() {
     gameOverMenu = document.getElementById("gameOver");
     centerMenuPosition(gameOverMenu);
     
-    restartButton = document.getElementById("restartButton");
-    restartButton.addEventListener("Click", gameRestart );
+    gameStartMenu = document.getElementById("gameStart");
+    centerMenuPosition(gameStartMenu);
     
-    setState("PLAY");
+    restartButton = document.getElementById("restartButton");
+    restartButton.addEventListener("click", gameRestart);
+    
+    playButton = document.getElementById("playButton");
+    playButton.addEventListener("click", gameRestart);
+    
+    playHUD = document.getElementById("playHUD");
+    scoreboard = document.getElementById("scoreboard");
+    
+    playHUB = document.getElementById("playHUB");
+   
+     setState("PLAY");
 }
 function gameLoop() {
     gameDraw();
+    drawScoreboard();
     if (gameState == "PLAY") {
         snakeUpdate();
         snakeDraw();
@@ -70,13 +85,16 @@ function gameRestart(){
     hideMenu(gameOverMenu);
     setState("PLAY");
 }
+function gameStartMenu(){
+    
+}
 /* -----------------------------------------------------------------------------
  * Snake Functions
  * ----------------------------------------------------------------------------- 
  */
 function snakeInitialize() {
     snake = [];
-    snakeLength = 3;
+    snakeLength = 1;
     snakeSize = 20;
     snakeDirection = "down";
 
@@ -112,6 +130,7 @@ function snakeUpdate() {
 
     checkFoodCollisions(snakeHeadX, snakeHeadY);
     checkWallCollisions(snakeHeadX, snakeHeadY);
+    checkSnakeCollisions(snakeHeadX, snakeHeadY);
 
     var snakeTail = snake.pop();
     snakeTail.x = snakeHeadX;
@@ -161,6 +180,11 @@ function keyboardHandler(event) {
         snakeDirection = "up";
     }
 }
+/*
+ * ----------------------------------------------------------------------------- 
+ * Collision Functions
+ * ----------------------------------------------------------------------------- 
+ */
 function checkFoodCollisions(snakeHeadX, snakeHeadY) {
     if (snakeHeadX == food.x && snakeHeadY == food.y) {
         snake.push({
@@ -182,14 +206,21 @@ function checkWallCollisions(snakeHeadX, snakeHeadY) {
         setState("GAME OVER");
     }
 }
+function checkSnakeCollisions(snakeHeadX, snakeHeadY){
+    for(var index = 1; index < snake.length; index++){
+        if(snakeHeadX == snake[index].x && snakeHeadY == snake[index].y){
+            setState("GAME OVER");
+            return;
+        }
+    }
+}
 //function initTexture(src) {
 //    texture = gl.createTexture();
-//    texture.image = new Image();
+//  texture.image = url("http://www.baltix.com/assets/images/materials/213x213/powder-coat_silver.jpg");
 //    texture.image.onload = function() {
 //        handleLoadedTexture(texture)
 //    }
-//
-//    texture.image.src = src;
+//    texture.image.src = url("http://www.baltix.com/assets/images/materials/213x213/powder-coat_silver.jpg");
 //}
 
 /*
@@ -218,9 +249,17 @@ function showMenu (state){
     if (state == "GAME OVER"){
         displayMenu(gameOverMenu);
     }
+   else if (state == "PLAY"){
+        display(gameStartMenu);
+    }
+    else if(state =="PLAY"){
+        displayMenu(playHUD);    }
 }
 function centerMenuPosition(menu){
     menu.style.top = (screenHeight / 2) - (menu.offsetHeight /2) + "px";
     console.log(screenWidth + " " + menu.offsetWidth);
     menu.style.left = (screenWidth / 2) - (menu.offsetWidth/2) + "px";
+}
+function drawScoreboard (){
+    scoreboard.innerHTML = "Length: " + snakeLength;
 }

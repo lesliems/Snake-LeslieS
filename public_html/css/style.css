@@ -9,7 +9,7 @@ body{
         background-size: cover;
   /*      background-image: url(http://p1.pichost.me/640/48/1712836.jpg);*/
 }
-#gameOver{
+#gameOver, #playHUD, #gameStart {
     position: absolute;
     visibility: hidden;
     width: 1000px;
@@ -31,4 +31,19 @@ h1, h3{
 #restartButton:hover {
     background-color: #009900;
 }
-    
+#playButton{
+    border: 2px solid white;
+    border-radius: 10px;
+    font-size: 50px;
+}
+#playButton:hover{
+    background-color: #009900;
+}
+#scoreboard{
+    margin: 0px;
+}
+h2 {
+    font-family: 'Press Start 2P', cursive;
+    color: white;
+    font-size: 40px;
+}
