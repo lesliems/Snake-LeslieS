@@ -14,8 +14,8 @@ var screenWidth;
 var screenHeight;
 
 var gameState;
+var gameStart;
 var gameOverMenu;
-var gameStartMenu;
 var restartButton;
 var playHUD;
 var scoreboard;
@@ -23,7 +23,8 @@ var scoreboard;
  * Executing Game Code
  * -----------------------------------------------------------------------------
  */
-gameInitialize();
+gameStartMenu();
+gameInitialize()
 snakeInitialize();
 foodInitialize();
 setInterval(gameLoop, 1000 / 30);
@@ -32,6 +33,22 @@ setInterval(gameLoop, 1000 / 30);
  * Game Functions
  * -----------------------------------------------------------------------------
  */
+function gameStartMenu(){
+    
+    var canvas = document.getElementById("game-screen");
+    context = canvas.getContext("2d");
+
+
+    canvas.width = screenWidth;
+    canvas.height = screenHeight;
+    
+    gameStart = document.getElementById("gameStart");
+    centerMenuPosition(gameStartMenu);
+    
+      playButton = document.getElementById("playButton");
+      playButton.addEventListener("click", gameInitialize);
+      
+}
 
 function gameInitialize() {
     var canvas = document.getElementById("game-screen");
@@ -47,16 +64,11 @@ function gameInitialize() {
     
     gameOverMenu = document.getElementById("gameOver");
     centerMenuPosition(gameOverMenu);
-    
-    gameStartMenu = document.getElementById("gameStart");
-    centerMenuPosition(gameStartMenu);
+ 
     
     restartButton = document.getElementById("restartButton");
     restartButton.addEventListener("click", gameRestart);
-    
-    playButton = document.getElementById("playButton");
-    playButton.addEventListener("click", gameRestart);
-    
+        
     playHUD = document.getElementById("playHUD");
     scoreboard = document.getElementById("scoreboard");
     
@@ -85,9 +97,9 @@ function gameRestart(){
     hideMenu(gameOverMenu);
     setState("PLAY");
 }
-function gameStartMenu(){
-    
-}
+//function gameStartMenu(){
+//   
+//}
 /* -----------------------------------------------------------------------------
  * Snake Functions
  * ----------------------------------------------------------------------------- 
@@ -249,9 +261,9 @@ function showMenu (state){
     if (state == "GAME OVER"){
         displayMenu(gameOverMenu);
     }
-   else if (state == "PLAY"){
-        display(gameStartMenu);
-    }
+//   else if (state == "PLAY"){
+//        display(gameStartMenu);
+//    }
     else if(state =="PLAY"){
         displayMenu(playHUD);    }
 }
