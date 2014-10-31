@@ -14,8 +14,6 @@ var screenWidth;
 var screenHeight;
 
 var gameState;
-var gameStart;
-var gameOverMenu;
 var restartButton;
 var playHUD;
 var scoreboard;
@@ -23,7 +21,6 @@ var scoreboard;
  * Executing Game Code
  * -----------------------------------------------------------------------------
  */
-gameStartMenu();
 gameInitialize()
 snakeInitialize();
 foodInitialize();
@@ -33,22 +30,6 @@ setInterval(gameLoop, 1000 / 30);
  * Game Functions
  * -----------------------------------------------------------------------------
  */
-function gameStartMenu(){
-    
-    var canvas = document.getElementById("game-screen");
-    context = canvas.getContext("2d");
-
-
-    canvas.width = screenWidth;
-    canvas.height = screenHeight;
-    
-    gameStart = document.getElementById("gameStart");
-    centerMenuPosition(gameStartMenu);
-    
-      playButton = document.getElementById("playButton");
-      playButton.addEventListener("click", gameInitialize);
-      
-}
 
 function gameInitialize() {
     var canvas = document.getElementById("game-screen");
@@ -61,20 +42,20 @@ function gameInitialize() {
     canvas.height = screenHeight;
 
     document.addEventListener("keydown", keyboardHandler);
-    
+
     gameOverMenu = document.getElementById("gameOver");
     centerMenuPosition(gameOverMenu);
- 
-    
+
+
     restartButton = document.getElementById("restartButton");
     restartButton.addEventListener("click", gameRestart);
-        
+
     playHUD = document.getElementById("playHUD");
     scoreboard = document.getElementById("scoreboard");
-    
+
     playHUB = document.getElementById("playHUB");
-   
-     setState("PLAY");
+
+    setState("PLAY");
 }
 function gameLoop() {
     gameDraw();
@@ -86,20 +67,16 @@ function gameLoop() {
     }
 }
 function gameDraw() {
-//    context.fillStyle = "url('http://p1.pichost.me/640/48/1712836.jpg')";
-////     context.fillStyle = "rgb(23, 201, 255)";
+//     context.fillStyle = "rgb(23, 201, 255)";
 //     context.fillRect(0, 0, screenWidth, screenHeight);
-    context.clearRect(0, 0, screenWidth, screenHeight);
+  context.clearRect(0, 0, screenWidth, screenHeight);
 }
-function gameRestart(){
+function gameRestart() {
     snakeInitialize();
     foodInitialize();
     hideMenu(gameOverMenu);
     setState("PLAY");
 }
-//function gameStartMenu(){
-//   
-//}
 /* -----------------------------------------------------------------------------
  * Snake Functions
  * ----------------------------------------------------------------------------- 
@@ -161,9 +138,10 @@ function foodInitialize() {
     setFoodPosition();
 }
 function foodDraw() {
-    context.fillStyle = "white";
+    context.fillStyle = "green";
     context.fillRect(food.x * snakeSize, food.y * snakeSize, snakeSize, snakeSize);
 }
+/*set food of position*/
 function setFoodPosition() {
     var randomX = Math.floor(Math.random() * screenWidth);
     var randomY = Math.floor(Math.random() * screenHeight);
@@ -212,28 +190,24 @@ function checkFoodCollisions(snakeHeadX, snakeHeadY) {
         food.y = Math.floor(randomY / snakeSize);
     }
 }
+
 function checkWallCollisions(snakeHeadX, snakeHeadY) {
-    if(snakeHeadX * snakeSize >= screenWidth || snakeHeadX * snakeSize < 0){
-         
+    if (snakeHeadX * snakeSize >= screenWidth || snakeHeadX * snakeSize < 0) {
+        setState("GAME OVER");
+    }
+    else if (snakeHeadY * snakeSize >= screenHeight || snakeHeadY * snakeSize < 0) {
         setState("GAME OVER");
     }
 }
-function checkSnakeCollisions(snakeHeadX, snakeHeadY){
-    for(var index = 1; index < snake.length; index++){
-        if(snakeHeadX == snake[index].x && snakeHeadY == snake[index].y){
+
+function checkSnakeCollisions(snakeHeadX, snakeHeadY) {
+    for (var index = 1; index < snake.length; index++) {
+        if (snakeHeadX == snake[index].x && snakeHeadY == snake[index].y) {
             setState("GAME OVER");
             return;
         }
     }
 }
-//function initTexture(src) {
-//    texture = gl.createTexture();
-//  texture.image = url("http://www.baltix.com/assets/images/materials/213x213/powder-coat_silver.jpg");
-//    texture.image.onload = function() {
-//        handleLoadedTexture(texture)
-//    }
-//    texture.image.src = url("http://www.baltix.com/assets/images/materials/213x213/powder-coat_silver.jpg");
-//}
 
 /*
  * -----------------------------------------------------------------------------
@@ -242,7 +216,7 @@ function checkSnakeCollisions(snakeHeadX, snakeHeadY){
  */
 function setState(state) {
     gameState = state;
-    showMenu(state);
+    showMenu(state)
 }
 /*
  * -----------------------------------------------------------------------------
@@ -250,28 +224,30 @@ function setState(state) {
  * -----------------------------------------------------------------------------
  */
 /*changes visibility of menu*/
-function displayMenu(menu){
+function displayMenu(menu) {
     menu.style.visibility = "visible";
 }
-function hideMenu(menu){
+function hideMenu(menu) {
     menu.style.visibility = "hidden";
 }
-/* Depending what state, it will show thaat menu*/
-function showMenu (state){
-    if (state == "GAME OVER"){
+/* Depending what state, it will show that menu*/
+function showMenu(state) {
+    if (state == "GAME OVER") {
         displayMenu(gameOverMenu);
     }
 //   else if (state == "PLAY"){
 //        display(gameStartMenu);
 //    }
-    else if(state =="PLAY"){
-        displayMenu(playHUD);    }
+    else if (state == "PLAY") {
+        displayMenu(playHUD);
+    }
 }
-function centerMenuPosition(menu){
-    menu.style.top = (screenHeight / 2) - (menu.offsetHeight /2) + "px";
+function centerMenuPosition(menu) {
+    menu.style.top = (screenHeight / 2) - (menu.offsetHeight / 2) + "px";
     console.log(screenWidth + " " + menu.offsetWidth);
-    menu.style.left = (screenWidth / 2) - (menu.offsetWidth/2) + "px";
+    menu.style.left = (screenWidth / 2) - (menu.offsetWidth / 2) + "px";
 }
-function drawScoreboard (){
+
+function drawScoreboard() {
     scoreboard.innerHTML = "Length: " + snakeLength;
 }
