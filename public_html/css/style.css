@@ -22,10 +22,18 @@ h1, h3{
     font-size: 100px;
     margin:0px;
 }
+#startButton{
+    border: 2px solid white;
+    border-radius: 10px;
+    font-size: 50px;
+}
 #restartButton {
     border: 2px solid white;
     border-radius: 10px;
     font-size: 50px;
+}
+#startButton:hover{
+       background-color: #009900; 
 }
 #restartButton:hover {
     background-color: #009900;

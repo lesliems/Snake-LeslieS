@@ -13,17 +13,27 @@ and open the template in the editor.
         <link href='http://fonts.googleapis.com/css?family=Permanent+Marker|Monofett|Monoton|Orbitron|Rock+Salt|Special+Elite|Bangers|Quantico|VT323|Press+Start+2P|Wallpoet|Faster+One|Stalinist+One' rel='stylesheet' type='text/css'>
     </head>
     <body>
-      
+        <section id="gameStart">
+            <h1 class="title">Galaxy Snake</h1>
+            <h3 id="startButton">Start</h3>
+        </section>
         <section id="playHUD">
             <h2 id="scoreboard"></h2>
         </section>
-         
+
         <section id="gameOver">
             <h1 class="title">GAME OVER!</h1>
             <h3 id="restartButton">Restart</h3>
         </section>
         <canvas id="game-screen" style="background-image: url(http://i1.wp.com/geekstopten.com/wp-content/uploads/2014/02/Nebula-HD-Wallpaper-Samsung-Galaxy-S5-HD-Wallpapers-Free.jpg)"></canvas>
         <script src="js/snake.js"></script>
+        <!-- SCM Music Player http://scmplayer.net -->
+        <script type="text/javascript" src="http://scmplayer.net/script.js" 
+        data-config="{'skin':'skins/cyber/skin.css','volume':72,'autoplay':true,'shuffle':false,'repeat':1,'placement':'bottom','showplaylist':false,'playlist':[{'title':'Star Wars Theme Song','url':'https://www.youtube.com/watch?v=oCS8e-eZx_8'},{'title':'Song 1','url':'https://www.youtube.com/watch?v=9IcafaZeAY8'},{'title':'Song 2','url':'https://www.youtube.com/watch?v=bhOmnCapauY&index=3&list=PLn9JGQp-wGrI4-KPQvWBPWehe6LeW8bdW'},{'title':'Song 3','url':'https://www.youtube.com/watch?v=NPmBIXEuBFU&index=2&list=PLn9JGQp-wGrI4-KPQvWBPWehe6LeW8bdW'}]}" ></script>
+        <!-- SCM Music Player script end -->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
     </body>
 
 </html>

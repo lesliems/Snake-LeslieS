@@ -13,7 +13,10 @@ var context;
 var screenWidth;
 var screenHeight;
 
+var gameOverMenu;
+var gameStartMenu;
 var gameState;
+var startButton;
 var restartButton;
 var playHUD;
 var scoreboard;
@@ -21,7 +24,7 @@ var scoreboard;
  * Executing Game Code
  * -----------------------------------------------------------------------------
  */
-gameInitialize()
+gameInitialize();
 snakeInitialize();
 foodInitialize();
 setInterval(gameLoop, 1000 / 30);
@@ -42,10 +45,15 @@ function gameInitialize() {
     canvas.height = screenHeight;
 
     document.addEventListener("keydown", keyboardHandler);
+    
+    gameStartMenu = document.getElementById("gameStart");
+    centerMenuPosition(gameStartMenu);
 
     gameOverMenu = document.getElementById("gameOver");
     centerMenuPosition(gameOverMenu);
 
+    startButton = document.getElementById("startButton");
+    startButton.addEventListener("click", gameStart);
 
     restartButton = document.getElementById("restartButton");
     restartButton.addEventListener("click", gameRestart);
@@ -55,6 +63,7 @@ function gameInitialize() {
 
     playHUB = document.getElementById("playHUB");
 
+    setState("START");
     setState("PLAY");
 }
 function gameLoop() {
@@ -62,6 +71,12 @@ function gameLoop() {
     drawScoreboard();
     if (gameState == "PLAY") {
         snakeUpdate();
+        snakeDraw();
+        foodDraw();
+    }
+    if (gameState =="START"){
+         gameDraw();
+    drawScoreboard();
         snakeDraw();
         foodDraw();
     }
@@ -75,6 +90,13 @@ function gameRestart() {
     snakeInitialize();
     foodInitialize();
     hideMenu(gameOverMenu);
+    setState("PLAY");
+}
+function gameStart(){
+    console.log("pressed");
+    snakeInitialize();
+    foodInitialize();
+    hideMenu(gameStartMenu);
     setState("PLAY");
 }
 /* -----------------------------------------------------------------------------
@@ -216,7 +238,7 @@ function checkSnakeCollisions(snakeHeadX, snakeHeadY) {
  */
 function setState(state) {
     gameState = state;
-    showMenu(state)
+    showMenu(state);
 }
 /*
  * -----------------------------------------------------------------------------
@@ -225,21 +247,24 @@ function setState(state) {
  */
 /*changes visibility of menu*/
 function displayMenu(menu) {
-    menu.style.visibility = "visible";
+    console.log(menu);
+    if(menu!=playHUD){
+        menu.style.visibility = "visible";
+    }
 }
 function hideMenu(menu) {
     menu.style.visibility = "hidden";
 }
 /* Depending what state, it will show that menu*/
 function showMenu(state) {
-    if (state == "GAME OVER") {
+   if (state == "START") {
+        displayMenu(gameStartMenu);
+    }
+    else if (state == "GAME OVER") {
         displayMenu(gameOverMenu);
     }
-//   else if (state == "PLAY"){
-//        display(gameStartMenu);
-//    }
-    else if (state == "PLAY") {
-        displayMenu(playHUD);
+    if(state == "PLAY"){
+        displayMenu("playHUD");
     }
 }
 function centerMenuPosition(menu) {
